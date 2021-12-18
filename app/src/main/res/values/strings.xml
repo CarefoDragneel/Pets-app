@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Pets</string>
+    <string name="overview">OverView:</string>
+    <string name="name">Name</string>
+    <string name="breed">Breed</string>
+    <string name="gender">Gender:</string>
+    <string name="measurement">Measurement:</string>
+    <string name="weight">weight</string>
+    <string name="weight_unit">kg</string>
+    <string name="save_as">Save as</string>
+    <string name="delete">Delete</string>
+    <string name="unknown">Unknown</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+</resources>
