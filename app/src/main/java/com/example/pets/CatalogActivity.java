@@ -23,11 +23,9 @@ public class CatalogActivity extends AppCompatActivity {
          */
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener( new View.OnClickListener(){
-            /*
-            * here we override the method in the interface
-             */
             @Override
             public void onClick(View v) {
+//                adding an intent to take us to EditorActivity
                 Intent fab_intent = new Intent(getApplicationContext(), EditorActivity.class);
                 startActivity(fab_intent);
             }

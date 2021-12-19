@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.pets.data.PetsContract.PetsEntry;
+
 /*
 * This class is used to set functionality in the Editor layout
 */
@@ -39,7 +41,7 @@ public class EditorActivity extends AppCompatActivity {
     /*
     * here we specify the variable which stores the gender of the pet
      */
-    private int pet_gender=0;
+    private int pet_gender= PetsEntry.GENDER_UNKNOWN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +108,11 @@ public class EditorActivity extends AppCompatActivity {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.male))) {
-                        pet_gender = 1; // Male
+                        pet_gender = PetsEntry.GENDER_MALE; // Male
                     } else if (selection.equals(getString(R.string.female))) {
-                        pet_gender = 2; // Female
+                        pet_gender = PetsEntry.GENDER_FEMALE; // Female
                     } else {
-                        pet_gender = 0; // Unknown
+                        pet_gender = PetsEntry.GENDER_UNKNOWN; // Unknown
                     }
                 }
             }
@@ -119,7 +121,7 @@ public class EditorActivity extends AppCompatActivity {
              */
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                pet_gender=0;
+                pet_gender = PetsEntry.GENDER_UNKNOWN;
             }
         });
 
