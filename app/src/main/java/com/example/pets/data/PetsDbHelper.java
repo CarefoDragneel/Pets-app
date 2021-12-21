@@ -29,11 +29,11 @@ public class PetsDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String DATABASE_CREATE_TABLE_COMMAND = "CREATE TABLE " + PetsEntry.TABLE_NAME + "("
-                + PetsEntry.COLUMN_PETS_ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + PetsEntry.COLUMN_PETS_NAME + "TEXT NOT NULL,"
-                + PetsEntry.COLUMN_PETS_BREED + "TEXT,"
-                + PetsEntry.COLUMN_PETS_GENDER + "INTEGER,"
-                + PetsEntry.COLUMN_PETS_WEIGHT + "INTEGER"
+                + PetsEntry.COLUMN_PETS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + PetsEntry.COLUMN_PETS_NAME + " TEXT NOT NULL,"
+                + PetsEntry.COLUMN_PETS_BREED + " TEXT,"
+                + PetsEntry.COLUMN_PETS_GENDER + " INTEGER,"
+                + PetsEntry.COLUMN_PETS_WEIGHT + " INTEGER"
                 + " );" ;
 
 //        this method is used to convert the string into a SQL command

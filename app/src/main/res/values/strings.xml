@@ -12,4 +12,6 @@
     <string name="unknown">Unknown</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="save">Pets saved</string>
+    <string name="not_saved">Pets could not be saved</string>
 </resources>

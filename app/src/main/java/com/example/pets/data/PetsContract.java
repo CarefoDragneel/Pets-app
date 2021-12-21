@@ -1,10 +1,12 @@
 package com.example.pets.data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /*
 * this class contains the column names and info about the database
 * it also stores the URI
+* This class is basically a blueprint for the database
  */
 public final class PetsContract {
 
@@ -14,12 +16,33 @@ public final class PetsContract {
     private PetsContract(){}
 
     /*
+    * Here, we are creating the URI which will be used to access the database data
+    * we are not hard coding the different parts of the URI so that they can be accessed independently
+    * here, these are made global because these are fixed URI contents which should be present in a URI to access
+    * data from this database
+    * except path which is table name only
+     */
+    public final static String CONTENT_AUTHORITY = "com.example.pets";
+
+    public final static Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+
+    public static final String PATH_PETS = "pets";
+
+    /*
+    * Basically, this inner class is like a blueprint(contract) of the database table
     * an inner class to store values for a table
     * BaseColumns is an interface which has two constants only
     * we use to automate the id of the pets as well as let the content provider know which field
     * is the id field
      */
-    public final class PetsEntry implements BaseColumns {
+    public static final class PetsEntry implements BaseColumns {
+
+        /*
+        * Here, we create the final URI which will be used to access the table
+        * we make a content uri here instead of making it global variable because this uri is used to access this table only
+        * table which is specified by this inner class
+         */
+        public final static Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI,PATH_PETS);
 
 //        we specify the table name
         public final static String TABLE_NAME = "pets";

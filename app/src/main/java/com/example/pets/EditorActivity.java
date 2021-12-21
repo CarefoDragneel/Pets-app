@@ -2,8 +2,12 @@ package com.example.pets;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,8 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.pets.data.PetsContract.PetsEntry;
+import com.example.pets.data.PetsDbHelper;
 
 /*
 * This class is used to set functionality in the Editor layout
@@ -68,6 +74,7 @@ public class EditorActivity extends AppCompatActivity {
         setupSpinner();
 
     }
+
 
     /*
     * this method is used to add spinner adapter to the spinner
@@ -124,8 +131,63 @@ public class EditorActivity extends AppCompatActivity {
                 pet_gender = PetsEntry.GENDER_UNKNOWN;
             }
         });
+    }
+
+    /*
+    * this method is sto insert the inputted element by the user in the database
+     */
+    private void insertData(){
+
+//        creating an object of helper class in order to create a table
+        PetsDbHelper dbHelper = new PetsDbHelper(this);
+
+//        obtaining a writable format of the database so that we can insert data into it
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+
+//        obtaining values entered by the user
+        String name = pet_name.getText().toString();
+        String breed = pet_breed.getText().toString();
+        String weight = pet_weight.getText().toString();
+
+//        creating a Content Values object to make key and value pairs
+        ContentValues values = new ContentValues();
+
+//        putting values as key value pair in the content provider class
+        values.put(PetsEntry.COLUMN_PETS_NAME,name);
+        values.put(PetsEntry.COLUMN_PETS_BREED,breed);
+        values.put(PetsEntry.COLUMN_PETS_WEIGHT,weight);
+
+//        entering value for gender of the pet
+        switch(pet_gender){
+            case 0:
+                values.put(PetsEntry.COLUMN_PETS_GENDER,PetsEntry.GENDER_UNKNOWN);
+                break;
+            case 1:
+                values.put(PetsEntry.COLUMN_PETS_GENDER,PetsEntry.GENDER_MALE);
+                break;
+            case 2:
+                values.put(PetsEntry.COLUMN_PETS_GENDER,PetsEntry.GENDER_FEMALE);
+                break;
+        }
+
+        /*
+        * here, also we use the content resolver to get insert data into the database using uri
+        * same as the query method of content resolver class that we used
+        * this also forwards the same insert query to insert method of the content provider
+         */
+        Uri insertUri = getContentResolver().insert(PetsEntry.CONTENT_URI,values);
+
+//        here we check for all values of uri received
+        if(insertUri==null){
+            Log.e("EditorActivity","couldn't enter the value");
+            Toast.makeText(this, R.string.not_saved, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, R.string.save, Toast.LENGTH_SHORT).show();
+        }
 
     }
+
     /*
     * This method is used to inflate a menu layout which is defined in the menu resource directory
     * Here, we define an object of MenuInflater class which is used to inflate a menu layout
@@ -144,7 +206,8 @@ public class EditorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_as_option:
-//                ENTER CODE LATER
+                insertData();
+                finish();
                 return true;
             case R.id.delete_option:
 //                ENTER CODE HERE
