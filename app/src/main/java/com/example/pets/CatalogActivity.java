@@ -8,9 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.pets.data.PetsContract.PetsEntry;
+import com.example.pets.data.PetsCursorAdapter;
 import com.example.pets.data.PetsDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -71,11 +73,12 @@ public class CatalogActivity extends AppCompatActivity {
          */
         Cursor cursor = getContentResolver().query(PetsEntry.CONTENT_URI,projection,null,null,null);
 
-//        temporary display text
-        TextView displayView = (TextView) findViewById(R.id.row_count);
-        String display = "Number of rows = "+String.valueOf(cursor.getCount());
-        displayView.setText(display);
+//        here we set the adapter object
+        PetsCursorAdapter adapter = new PetsCursorAdapter(this,cursor);
 
+//        we define the list view object and attach the adapter to it
+        ListView list = (ListView) findViewById(R.id.pets_list);
+        list.setAdapter(adapter);
     }
 
 }
