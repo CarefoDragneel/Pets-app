@@ -63,10 +63,18 @@ public final class PetsContract {
         public final static String COLUMN_PETS_WEIGHT = "weight";
 
         /*
-        * variables for the different gender options
+         * variables for the different gender options
          */
         public final static int GENDER_UNKNOWN = 0;
         public final static int GENDER_MALE = 1;
         public final static int GENDER_FEMALE = 2;
+
+//        we add validity check here
+        public static boolean isValidGender(int gender) {
+            if (gender == GENDER_UNKNOWN || gender == GENDER_MALE || gender == GENDER_FEMALE) {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -128,6 +128,28 @@ public class PetsProvider extends ContentProvider {
 
     private Uri insertPets(Uri uri, ContentValues values){
 
+        /*
+        * here in order to prevent the insertion of wrong data we create validity checks
+        * here we use the methods of ContentValue class to get
+         */
+        String name = values.getAsString(PetsEntry.COLUMN_PETS_NAME);
+        if (name == null) {
+            throw new IllegalArgumentException("Pet requires a name");
+        }
+
+        // Check that the gender is valid
+        Integer gender = values.getAsInteger(PetsEntry.COLUMN_PETS_GENDER);
+        if (gender == null || !PetsEntry.isValidGender(gender)) {
+            throw new IllegalArgumentException("Pet requires valid gender");
+        }
+
+        // If the weight is provided, check that it's greater than or equal to 0 kg
+        Integer weight = values.getAsInteger(PetsEntry.COLUMN_PETS_WEIGHT);
+        if (weight != null && weight < 0) {
+            throw new IllegalArgumentException("Pet requires valid weight");
+        }
+
+
         SQLiteDatabase db = pets_database_helper.getWritableDatabase();
 
 //        below method returns the id of the row which is inserted in the table
