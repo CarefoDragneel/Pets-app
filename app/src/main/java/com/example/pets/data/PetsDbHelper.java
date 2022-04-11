@@ -37,11 +37,15 @@ public class PetsDbHelper extends SQLiteOpenHelper {
                 + " );" ;
 
 //        this method is used to convert the string into a SQL command
+//        not used with SELECT command as it does not return anything
+//        only used for changing the database
         db.execSQL(DATABASE_CREATE_TABLE_COMMAND);
     }
 
+//    this method is called when the schema of the database is updated
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        CODE ADDED LATER
+        db.execSQL("DELETE FROM "+ PetsEntry.TABLE_NAME);
+        onCreate(db);
     }
 }

@@ -56,7 +56,8 @@ public class CatalogActivity extends AppCompatActivity {
 //        we obtain a readable format of the database
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-//        here, we define projection in order to get the query
+//        here, we define projection in order to know which columns we want returned as query
+//        if we don't define it then we get all columns back
         String projection[] = new String[]{
                 PetsEntry.COLUMN_PETS_ID,
                 PetsEntry.COLUMN_PETS_NAME,
@@ -70,6 +71,12 @@ public class CatalogActivity extends AppCompatActivity {
         * then we use query method which returns a cursor object
         * here, this query method then calls the query method of the respective provider and asks for data
         * query method of the provider then returns a cursor which is passed on to this query method
+        * selection ans selectionArgs specifies the WHERE clause
+        * selection provides the column name and a place holder like "=?"
+        * selectionArgs provide the value for the placeholder
+        * Cursor is like ArrayList, it is used to store data; ArrayList we stored any type of data but here we specifically store db data
+        * Cursor also has many methods like ArrayList to navigate through db data
+        * when Cursor is completed me call Cursor.close()
          */
         Cursor cursor = getContentResolver().query(PetsEntry.CONTENT_URI,projection,null,null,null);
 

@@ -17,9 +17,10 @@ import androidx.annotation.Nullable;
 
 /*
 * this is a Content provider class; we create this because ContentProvider is an abstract class
-* this class is basically used to give access to read as well as manipulate the database
+* this class is basically used to give access to read as well as manipulate the database to current app as well as outside apps
 * it takes in the uri to distinguish which table to access or which specific part of the table to access
-* it also used the Cursor Loader class to enable multi threading
+* it also uses the Cursor Loader class to enable multi threading
+* there are many functions of using content providers which otherwise we will have to implement     manually
  */
 public class PetsProvider extends ContentProvider {
     //    this is used to get simple name of the class
