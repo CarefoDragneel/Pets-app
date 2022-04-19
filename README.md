@@ -8,10 +8,6 @@ and delete function needs to be added.
 
 
 
-## App Apk
-
-You can download the application apk to run it in your machine ![here](https://github.com/CarefoDragneel/Miwok-app/blob/master/app-debug.apk)
-
 ## Features
 
 - It uses SQLite Database
