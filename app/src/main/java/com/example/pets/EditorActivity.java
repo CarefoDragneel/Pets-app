@@ -26,6 +26,8 @@ import com.example.pets.data.PetsDbHelper;
 */
 public class EditorActivity extends AppCompatActivity {
 
+    private boolean check = true;
+
     /*
     * we make a global variable of the name field which is entered by the user
      */
@@ -149,6 +151,12 @@ public class EditorActivity extends AppCompatActivity {
         String breed = pet_breed.getText().toString();
         String weight = pet_weight.getText().toString();
 
+//      prevent any input from being empty
+        if(name.length()==0||breed.length()==0||weight.length()==0){
+            check = false;
+            return;
+        }
+
 //        creating a Content Values object to make key and value pairs
         ContentValues values = new ContentValues();
 
@@ -207,7 +215,10 @@ public class EditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save_as_option:
                 insertData();
-                finish();
+                if(check) finish();
+                else {
+                    Toast.makeText(this,"Provide complete information",Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.delete_option:
 //                ENTER CODE HERE

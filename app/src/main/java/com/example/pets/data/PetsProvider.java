@@ -91,6 +91,12 @@ public class PetsProvider extends ContentProvider {
                 }
         }
 
+//        Here, the CatalogActivity UI is not being updated when there a change in the database
+//        in order to change the UI we are needed to restart the app
+//        so in order to make the CatalogActivity reload when there is some kind of change in the database we set notification on the URI which is changed
+//        If the data at this URI changes, then we know we need to update the Cursor.
+//        here, uri (in the param) is being watched through the content resolver
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
     }
@@ -154,6 +160,9 @@ public class PetsProvider extends ContentProvider {
             Log.e(LOG_TAG,"Data not inserted in uri: "+uri);
             return null;
         }
+
+        // Notify all listeners that the data has changed for the pet content URI
+        getContext().getContentResolver().notifyChange(uri, null);
 
         return ContentUris.withAppendedId(uri,id);
     }
@@ -223,7 +232,14 @@ public class PetsProvider extends ContentProvider {
         SQLiteDatabase database = pets_database_helper.getWritableDatabase();
 
         // Returns the number of database rows affected by the update statement
-        return database.update(PetsEntry.TABLE_NAME, values, selection, selectionArgs);
+        int rowsUpdated = database.update(PetsEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        if(rowsUpdated!=0){
+            // Notify all listeners that the data has changed for the pet content URI
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsUpdated;
     }
 
     /*
@@ -236,19 +252,31 @@ public class PetsProvider extends ContentProvider {
         // Get writeable database
         SQLiteDatabase database = pets_database_helper.getWritableDatabase();
 
+        // get rows deleted
+        int rowsDeleted=0;
+
         final int match = uriMatcher.match(uri);
         switch (match) {
             case PETS:
                 // Delete all rows that match the selection and selection args
-                return database.delete(PetsEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(PetsEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case PETS_ID:
                 // Delete a single row given by the ID in the URI
                 selection = PetsEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                return database.delete(PetsEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(PetsEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+
+        if(rowsDeleted != 0){
+            // Notify all listeners that the data has changed for the pet content URI
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsDeleted;
     }
 
     @Nullable

@@ -34,6 +34,7 @@ public final class PetsContract {
     * BaseColumns is an interface which has two constants only
     * we use to automate the id of the pets as well as let the content provider know which field
     * is the id field
+    * we have info about URI here because URI is used to access data from this particular table
      */
     public static final class PetsEntry implements BaseColumns {
 
